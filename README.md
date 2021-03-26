@@ -9,7 +9,7 @@ Instructions for how to deploy decoupled MERN apps using MongoDB Atlas, Heroku, 
 > MongoDB Atlas is a cloud hosting service provided by MongoDB. We will have to sign up for an account and configure our server to use MongoDB Atlas when it is deployed.
 
 * We will be using [Heroku](https://www.heroku.com/) once again to host our express server.
-* Our React front end will be deployed with [Netlify](https://www.netlify.com/) and will be conifugred to speak to our server on heroku.
+* Our React front end will be deployed with [Netlify](https://www.netlify.com/) and will be configured to speak to our server on heroku.
 
 
 ## Configuring the server for deployment
@@ -22,15 +22,14 @@ First we will configure the backend for deployment, we need to checkout to a `de
   * make sure you have no uncommited changes
 * afterwards use the command `git checkout -b deployment` to create a deployment branch
 
-Now you can update your `.env` with the following enviromental variable:
+Now you can update your `.env` with the following environmental variable:
 ```sh
 # in .env
 NODE_ENV=development
 ```
 
-Next we will `NODE_ENV` to configure our server to use different databases depending on the enviroment. Update your mongoose connection in `./models/index.js` to only run if `NODE_ENV` is set to development
-
-It will looke something like this:
+Next we will `NODE_ENV` to configure our server to use different databases depending on the environment (production vs development). Update your mongoose connection in `./models/index.js` to only connect to localhost if `NODE_ENV` is set to `development` with an `if/else`.
+It will look something like this:
 
 ```js
 const mongoose = require('mongoose')
@@ -93,8 +92,8 @@ We will be using Atlas as the host for our MongoDB database.
 Signup for account [here.](https://www.mongodb.com/cloud/atlas) Please note - you will have to use Google Account for OAuth. 
 
 1. Select the "Shared Clusters" free tier. 
-1. For cloud provider, select AWS and for region, whichever region is physically closest to you (example: People on the West Coast should choose `us-west-#` ). Leave all other settings on this page at their default. 
-1. You will be redirected to a Dashboard where your Clusters will be listed. C
+2. For cloud provider, select AWS and for region, whichever region is physically closest to you (example: People on the West Coast should choose `us-west-#` ). Leave all other settings on this page at their default. 
+3. You will be redirected to a Dashboard where your Clusters will be listed. C
 
 ### Create and configure a cluster
 
@@ -108,15 +107,15 @@ this is our todo list:
 - [ ]  Load Sample Data
 - [ ]  Connect your cluster
 
-1. lick the green **Create a New Cluster** button on the right hand side of the page. *PLEASE NOTE: It takes 3-5 min to make a new cluster.* 
-1. On the left hand side of the screen there is a hamburger menu. Click on **Database Access** under **Security**  on the lefthand menu and then click the big green button that says  "Add New Database User".
+4. lick the green **Create a New Cluster** button on the right hand side of the page. *PLEASE NOTE: It takes 3-5 min to make a new cluster.* 
+5. On the left hand side of the screen there is a hamburger menu. Click on **Database Access** under **Security**  on the lefthand menu and then click the big green button that says  "Add New Database User".
   * For the Authentication Method, leave it on Password. Declare a username and password under Password Authentication. This information will be hidden later in an env variable on your server. **IT IS SUPER IMPORTANT THAT YOU WRITE THIS INFORMATION DOWN**.  
     * *PLEASE NOTE - the fewer special characters your password has, the easier it will be to format your URI call, but also the less secure your db will be* 🤷  **JUST USE REGULAR CHARACTERS FOR THIS DEPLOYMENT**. 
   * Leave all other defaults the same and add user. 
-1. click on **Network Access** under **Security**  on the lefthand menu and then click the big green button that says  "Add IP Address".
+6. click on **Network Access** under **Security**  on the lefthand menu and then click the big green button that says  "Add IP Address".
   * For the sake of this app we are going to allow for access from anywhere since you will each be doing your own Heroku deployments. Click "Allow Access from Anywhere" under "Whitelist a connection IP address." Leave the default `0.0.0.0/0` call, and click "Add IP Address."
-1. Return to the Clusters dashboard by clicking **Clusters** under **Data Storage** on the lefthand menu. 
-1. On your Cluster, click the Connect button. 
+7. Return to the Clusters dashboard by clicking **Clusters** under **Data Storage** on the lefthand menu. 
+8. On your Cluster, click the Connect button. 
   * Click "Choose a connection method", and on the next page choose "Connect your application."
   * On this new Connect page, under list item two, click "Include full driver code example", and then copy the code MongoDB has created for you into a text file for use in just a moment. 
 
@@ -127,8 +126,8 @@ We get to connect our express app to the Cloud!
 Head back to your server folder.
 
 1. we need to install the mongodb npm package: `npm i mongodb`
-1. Take copied MongoDB code and add to your `index.js` in the else statement we created earlier. 
-1. We need to modify the second line of copied code to inlcude our password and then put it in our `.env` file
+2. Take copied MongoDB code and add to your `index.js` in the else statement we created earlier. 
+3. We need to modify the second line of copied code to inlcude our password and then put it in our `.env` file
   * replace \<password> with that password you should have copied down earlier
     *  *Please note - if the password you set for your user has any special characters, you must pass that password in URL encoded format. To format your password for URL encoding use this tool [here.](https://www.urlencoder.org/)* **why'd you do it? I told you not to do it!**
   * add `ATLAS_URI` to your .env file and copy the formatted URI there **WITHOUT QOUTES**
@@ -150,12 +149,12 @@ the formatting of the atlas uri is as follows:
 
 * mongodb+srv://`<user_name>`:`<password>`@cluster0.v70nx.mongodb.net/`<db_name>`?retryWrites=true&w=majority
 
-5. You can test connecting to mongoDB Atlas by updating your `NODE_ENV` to be anything except `development`. Such as `NODE_ENV=banana` or `NODE_ENV=mango` or even just comment it out `# NODE_ENV=development`. After you update your `.env`, kill `nodemon` and restart it.
+4. You can test connecting to mongoDB Atlas by updating your `NODE_ENV` to be anything except `development`. Such as `NODE_ENV=banana` or `NODE_ENV=mango` or even just comment it out `# NODE_ENV=development`. After you update your `.env`, kill `nodemon` and restart it.
 
 
-6. Save, commit your code, and then spin up Nodemon locally and if you are getting your relevant `MONGOOSE CONNECTED` message you are good to move on. **If not, please reach out to a Dev for debugging.** ⭐
+5. Save, commit your code, and then spin up Nodemon locally and if you are getting your relevant `MONGOOSE CONNECTED` message you are good to move on. **If not, please reach out to a Dev for debugging.** ⭐
 
-7. If your server doesn't crash and you can CRUD your Atlas DB, YOU ARE GOOD TO GO 🎉!
+6. If your server doesn't crash and you can CRUD your Atlas DB, YOU ARE GOOD TO GO 🎉!
 
 Completed `./models/index.js`
 
