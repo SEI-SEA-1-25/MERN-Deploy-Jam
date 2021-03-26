@@ -2,6 +2,8 @@
 
 Instructions for how to deploy decoupled MERN apps using MongoDB Atlas, Heroku, and Netlify. 
 
+We will be using a **CD** or *Continuos Deployment* approach to have our apps updated online as new features are completed. This will complement the **CI** or *Continuos Integration* workflow we have been using for this project.
+
 ### Overview
 
 * Our Database will be hosted with [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
@@ -9,7 +11,12 @@ Instructions for how to deploy decoupled MERN apps using MongoDB Atlas, Heroku, 
 > MongoDB Atlas is a cloud hosting service provided by MongoDB. We will have to sign up for an account and configure our server to use MongoDB Atlas when it is deployed.
 
 * We will be using [Heroku](https://www.heroku.com/) once again to host our express server.
+
+> This time around we a going to be using heroku's continuos deployment from github option -- don't worry its super easy
+
 * Our React front end will be deployed with [Netlify](https://www.netlify.com/) and will be configured to speak to our server on heroku.
+
+> Netlify is a cloud computing that offers easy to use frontend deployment hosting and continuos deployment integrations from github
 
 
 ## Configuring the server for deployment
